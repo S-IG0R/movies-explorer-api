@@ -1,7 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const helmet = require('helmet');
 const { errors } = require('celebrate');
+const { errorLogger, requestLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/error-handler');
+const limit = require('./middlewares/rateLimit');
 const router = require('./routes/index');
 require('dotenv').config();
 
@@ -12,6 +15,7 @@ const {
 
 const app = express();
 
+// подключает к ДБ
 mongoose
   .connect(DB_URL, {
     useNewUrlParser: true,
@@ -20,11 +24,23 @@ mongoose
     console.log('Connected to MongoDB');
   });
 
+// защита заголовков
+app.use(helmet());
+
 // парсер тела запросов
 app.use(express.json());
 
+// логгер запросов
+app.use(requestLogger);
+
+// ограничитель запросов к серверу
+app.use(limit);
+
 // роутер
 app.use(router);
+
+// логгер ошибок
+app.use(errorLogger);
 
 // обработчик ошибок celebrate
 app.use(errors());
