@@ -48,7 +48,7 @@ router.delete(
   '/movies/:_id',
   celebrate({
     params: Joi.object().keys({
-      cardId: Joi.string().length(24).hex().required(),
+      _id: Joi.string().length(24).hex().required(),
     }),
     headers: Joi.object()
       .keys({ authorization: Joi.string().required() })
