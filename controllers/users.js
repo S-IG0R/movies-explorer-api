@@ -62,7 +62,9 @@ const login = (req, res, next) => {
         // если пароль совпал с хешем создаем токен
         const token = jwt.sign(
           { _id: user._id },
-          NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret_key',
+          NODE_ENV === 'production'
+            ? JWT_SECRET
+            : 'dev-secret_key',
           { expiresIn: '7d' },
         );
         // отправляем токен в куки со сроком годность в 7 дней

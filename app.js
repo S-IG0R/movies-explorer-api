@@ -6,6 +6,7 @@ const { errorLogger, requestLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/error-handler');
 const limit = require('./middlewares/rateLimit');
 const router = require('./routes/index');
+const cors = require('./middlewares/cors');
 require('dotenv').config();
 
 const {
@@ -14,6 +15,9 @@ const {
 } = process.env;
 
 const app = express();
+
+// обработчик CORS запросов
+app.use(cors);
 
 // подключает к ДБ
 mongoose
