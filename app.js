@@ -25,7 +25,7 @@ mongoose
     useNewUrlParser: true,
   })
   .then(() => {
-    console.log('Connected to MongoDB');
+    console.log(`Connected to MongoDB, URL: ${DB_URL}`);
   });
 
 // защита заголовков
