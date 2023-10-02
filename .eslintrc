@@ -1,0 +1,17 @@
+{
+    "env": {
+        "browser": false,
+        "commonjs": true,
+        "es2021": true
+    },
+    // "extends": "eslint:recommended",
+    "extends": "airbnb-base",
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "rules": {
+      "no-underscore-dangle": ["error", { "allow": ["_id"] }], //разрешает _id
+      "no-console": "off", // разрешает консоль
+      "arrow-body-style": ["error", "always"] // разрешает return перед выражением
+    }
+}
