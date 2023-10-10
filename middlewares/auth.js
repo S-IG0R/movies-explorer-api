@@ -15,11 +15,18 @@ module.exports = (req, res, next) => {
     // если удалось верифицировать ключ, записывается _id в пейлоуд
     payload = jwt.verify(
       token,
-      NODE_ENV === 'production'
-        ? JWT_SECRET
-        : 'dev-secret_key',
+      NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret_key',
     );
   } catch (err) {
+    if (err.message === 'invalid signature') {
+      throw new UnauthorizedError('Неверная формат токена');
+    }
+    if (err.message === 'jwt expired') {
+      throw new UnauthorizedError('Токен просрочен');
+    }
+    if (err.message === 'invalid token') {
+      throw new UnauthorizedError('Неверный токен');
+    }
     throw new UnauthorizedError('Необходима авторизация');
   }
   // добавляем _id ко всем запросам

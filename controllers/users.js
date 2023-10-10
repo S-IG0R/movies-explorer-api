@@ -99,6 +99,13 @@ const updateUserInfo = (req, res, next) => {
       res.status(HTTP_STATUS_OK).send(updatedUser);
     })
     .catch((err) => {
+      if (err.code === 11000) {
+        return next(
+          new ConflictError(
+            'Пользователь с такими email уже существует',
+          ),
+        );
+      }
       if (
         err instanceof mongoose.Error.CastError
         || err instanceof mongoose.Error.ValidationError
